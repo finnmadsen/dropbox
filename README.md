@@ -19,18 +19,18 @@ If you need to change there is a lot of great help to get out there. Just search
 Usage
 ----------
 The start script below will pull and start a container with named 'dropbox'  with dropbox and a Nginx+php-fpm server running. 
-1. **-p 127.0.0.1:9001** will expose the control gui on your local post 9001 (you can choose any free port). You can omit the 127.0.0.1 and just use *-p 9001:80*, but then you might make the gui accessible from browsers on other computer on your network, and it might be what you want. 
-+ **-p 17500:17500** will expose the LAN-SYNC port. If you run more than one instance of this dropbox image on one computer, this feature can for obvious reason only be exposed for one instance. 
-+ **--restart=unless-stopped** will make sure your container will restart whenever stopped or reboot of your computer. 
-+ **-e DBOX_UID and -e DBOX_GID** will make sure that all files synchronized by dropbox will get your own user/group permissions set. 
-+ ** -e LOCALE**, to be able to handle filenames that include multibyte characters the container must be able to handle them, to do so, the right "locales" must be installed and enabled in the container. That is done using the  -e LOCALE. When specified the locale will be configured on the fly when the container starts up. -e LOCALE=sv_SE (Swdish) will select the sv_SE.UTF-8 locale.
++ **-p 127.0.0.1:9001** will expose the control gui on your local post 9001 (you can choose any free port). You can omit the 127.0.0.1 and just use *-p 9001:80*, but then you might make the gui accessible from browsers on other computer on your network, and it might be what you want. 
++ **-p 17500:17500** will expose the LAN-SYNC port. If you run more than one instance of this dropbox image on one computer, this feature can for obvious reason only be exposed for one instance.
++ **--restart=unless-stopped** will make sure your container will restart whenever stopped or reboot of your computer.
++ **-e DBOX_UID and -e DBOX_GID** will make sure that all files synchronized by dropbox will get your own user/group permissions set.
++ **-e LOCALE**, to be able to handle filenames that include multibyte characters the container must be able to handle them, to do so, the right "locales" must be installed and enabled in the container. That is done using the  -e LOCALE. When specified the locale will be configured on the fly when the container starts up. -e LOCALE=sv_SE (Swdish) will select the sv_SE.UTF-8 locale.
 + **-v ~/.dropbox:/dbox/.dropbox:z and -v ~/Dropbox:/dbox/Dropbox:z** will map the configuration folder and the storage folder to folder in your HOME directory. You can choose others, but if not specified you will lose all every time you restarts the container. As mentioned earlier these folders **MUST reside on an EXT4 file system**.
 
 **LAN-SYNC**
 Is a great Dropbox feature that enables more dropbox instances on the same local network to syncronice over the LAN rather than transfer the files over internet.
 As Lan-Sync is exposed on a specific port (17500), only one instance on a computer can use it at a time.
 
-**More than one Dropbox on the same computer?**
+**Can I host more than one Dropbox on the same computer?**
 Yes you can, you can have several instances running. But you need to name them unique using the --name tag in the start script. You also need to assign different port numbers -p 9001, -p 9002 etc for the control GUI. 
 
 Each instance also need to be connected to Dropbox accounts separately. 
@@ -62,7 +62,7 @@ When you start the first time you must follow these steps:
 + Execute the startup script.
 + The .dropbox directory will be empty at first startup so dropbox will automatically configure it for you. In the end dropbox will ask you to connect this instance to your dropbox account. **To find the connect string that dropbox needs you need to "View output from the container"**. Just cut/paste the link you see there into a browser.
 + After a while you should see some welcome message from dropbox in the container output, and YOU ARE UP AND GOING :-)
-+ Now you van start the control GUI in a browser using "http://localhost:9001 (or whatever port you specified at startup.
++ Now you van start the control GUI in a browser using http://localhost:9001 (or whatever port you specified at startup.
 
 Control GUI
 -----------
