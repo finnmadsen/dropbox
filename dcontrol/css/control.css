@@ -1,0 +1,115 @@
+body {
+  margin:0px 0px 0px 0px;
+  background:#9f9f9f;
+  font:100% Verdana,Arial,san-serif;
+}
+h2 {
+  text-decoration: normal;
+}
+th {
+  text-align:left;
+}
+td {
+  padding-right: 25px;
+}
+#menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 90px;
+  background:#d4d4d4;
+}
+#main {
+  position: fixed;
+  top: 90px;
+  margin: 5px;
+  overflow: auto;
+}
+#foot {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 30px;
+  background:#d4d4d4;
+}
+#status {
+  font-weight:lighter;
+  margin:5px;
+  color: #333333;
+  width: 95%;
+  overflow: hidden;
+  white-space:nowrap;
+}
+.content {
+  position: relative;
+  color: #000000;
+  height: 0px;
+  margin: 0px;
+  visibility: hidden;
+  overflow: hidden;
+}
+.content-current {
+  position: relative;
+  color: #000000;
+  width: 100%;
+  height: 95%;
+  margin: 0px;
+  visibility: visible;
+}
+#m_general {
+  background-image: url('../img/general.png');
+}
+#m_filter {
+  background-image: url('../img/filter.png');
+}
+.mbutt {
+  width: 70px;
+  height: 70px;
+  display: inline-block;
+  background:#888888;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 10px;
+  border-width: 2px;
+  border-radius: 6px;
+}
+.mbutt-current {
+  margin: 8px;
+  border-style: outset;
+  background-color:#333333;
+}
+.mbutt:hover {
+  margin: 8px;
+  border-style: outset;
+  background-color:#696969;
+  cursor: pointer;
+}
+.filternode {
+  margin: 5px 0px 0px 0px;
+  position: relative;
+  left:  20px;
+  width: 500px;
+}
+.tnode {
+  display: inline-block;
+}
+.bold-tnode {
+  display: inline-block;
+}
+.bold-tnode:hover {
+  cursor: pointer;
+}
+.nodecont {
+  margin: 0px;
+  position: relative;
+  max-height: none;
+  display: inline-block;
+  visibility: visible;
+}
+.nodecont-closed {
+  margin: 0px;
+  position: relative;
+  max-height: 0px;
+  display: none;
+  visibility: hidden;
+}

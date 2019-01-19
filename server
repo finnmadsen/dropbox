@@ -1,0 +1,63 @@
+#!/bin/sh
+# Cleanup function
+cleanup() {
+	DBOX_ERROR=$(find /tmp -type f -name dropbox_error* | grep -o dropbox_error)
+	if [ ! -z "$DBOX_ERROR" ]; then
+		echo "dropbox ended with errors:"
+		cat /tmp/dropbox_error*
+	fi
+}
+trap cleanup TERM
+
+# Set UID/GID if not provided with enviromental variable(s).
+if [ -z "$DBOX_UID" ]; then
+	DBOX_UID=$(cat /etc/passwd | grep dropbox | cut -d: -f3)
+fi
+if [ -z "$DBOX_GID" ]; then
+	DBOX_GID=$(cat /etc/group | grep dropbox | cut -d: -f3)
+fi
+
+echo "Using (user_id/Group_id) $DBOX_GID / $DBOX_GID"
+
+# Look for existing group, if not found create dropbox with specified GID.
+DBOX_GROUP=$(grep ":$DBOX_GID:" /etc/group)
+if [ -z "$DBOX_GROUP" ]; then
+	usermod -g users dropbox
+	groupdel dropbox
+	groupadd -g $DBOX_GID dropbox
+fi
+
+# Set dropbox account's UID.
+usermod -u $DBOX_UID -g $DBOX_GID dropbox > /dev/null 2>&1
+
+# Change ownership to dropbox account on all working folders.
+chown -R $DBOX_UID:$DBOX_GID /dbox
+
+# Change permissions on Dropbox folder
+chmod 755 /dbox/Dropbox
+
+# Replace hostname in /etc/hosts
+echo "$(grep -E '(localhost|::)' /etc/hosts)" > /etc/hosts
+echo 127.0.0.1 $(hostname) >> /etc/hosts
+
+# Set locale
+if [ ! -z "$LOCALE" ]; then
+    sed -i -e 's/# '$LOCALE'.UTF-8 UTF-8/'$LOCALE'.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen \
+    && export LC_ALL=$LOCALE.UTF-8
+fi
+
+# Extract dropbox and run it.
+tar -xzf /dbox/base/dropbox.tar.gz -C /dbox/
+chown -R $DBOX_UID:$DBOX_GID /dbox/.dropbox-dist
+echo "dropboxd($(cat /dbox/.dropbox-dist/VERSION)) started..."
+exec sudo -u dropbox /dbox/.dropbox-dist/dropboxd &
+
+# Start php-fpm
+/usr/sbin/php-fpm7.3 -D
+
+# Start nginx
+/usr/sbin/nginx
+
+# Wait for processes to stop
+wait
