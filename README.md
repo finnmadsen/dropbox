@@ -4,16 +4,18 @@ Background
 -----------
 Dropbox can be a challenge to install on a linux system, in my case on a Centos server. This is especially true if you are in a country that uses multibyte characters in file names. At least I had some fun before I succeeded.
 
-I started of with the great images that is provided by janeczku, which can be found here https://github.com/janeczku/docker-dropbox ,  but ran into problems with multibyte file names and I'am also to convenient to use the dropbox command line when I exclude and include folders from synchronization.    
+I started of with the great images that is provided by janeczku, which can be found here https://github.com/janeczku/docker-dropbox ,  but ran into problems with multibyte file names and I'am also to convenient to use the dropbox command line when I exclude and include folders from synchronization.
 
 This is the result of my learning process. And it works for me in the Nordic countries, but should work anywhere with the correct setting.
+
 Linux host Requirements
 -----------
 Dropbox requires you to have your local Dropbox storage on an ext4 file system, some distributions will by default use another Types. Eg. centos will by default create xfs file systems which will not work. So please fix the file system first. Your can find your current file system type using the following command:
 ```
 df -T 
 ```
-If you need to change there is a lot of great help to get out there. Just search for something like 'lvm change file system'. But be careful not to lose your data. 
+If you need to change there is a lot of great help to get out there. Just search for something like 'lvm change file system'. But be careful not to lose your data.
+
 Usage
 ----------
 The start script below will pull and start a container with named 'dropbox'  with dropbox and a Nginx+php-fpm server running. 
@@ -22,7 +24,7 @@ The start script below will pull and start a container with named 'dropbox'  wit
 + **--restart=unless-stopped** will make sure your container will restart whenever stopped or reboot of your computer. 
 + **-e DBOX_UID and -e DBOX_GID** will make sure that all files synchronized by dropbox will get your own user/group permissions set. 
 + ** -e LOCALE**, to be able to handle filenames that include multibyte characters the container must be able to handle them, to do so, the right "locales" must be installed and enabled in the container. That is done using the  -e LOCALE. When specified the locale will be configured on the fly when the container starts up. -e LOCALE=sv_SE (Swdish) will select the sv_SE.UTF-8 locale.
-+ **-v ~/.dropbox:/dbox/.dropbox:z and -v ~/Dropbox:/dbox/Dropbox:z** will map the configuration folder and the storage folder to folder in your HOME directory. You can choose others, but if not specified you will lose all every time you restarts the container. As mentioned earlier these folders **MUST reside on an EXT4 file system**.  
++ **-v ~/.dropbox:/dbox/.dropbox:z and -v ~/Dropbox:/dbox/Dropbox:z** will map the configuration folder and the storage folder to folder in your HOME directory. You can choose others, but if not specified you will lose all every time you restarts the container. As mentioned earlier these folders **MUST reside on an EXT4 file system**.
 
 **LAN-SYNC**
 Is a great Dropbox feature that enables more dropbox instances on the same local network to syncronice over the LAN rather than transfer the files over internet.
