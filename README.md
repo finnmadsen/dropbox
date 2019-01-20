@@ -8,6 +8,8 @@ I started of with the great images that is provided by janeczku, which can be fo
 
 This is the result of my learning process. And it works for me in the Nordic countries, but should work anywhere with the correct setting.
 
+The Web-GUI makes it completely independent from the linux desktop, all you need is a browser. You can even access and control the Dropbox daemon from a browser on another computer (see below). With a little php knowledge it'll be easy for you to enhance the functionallity of the GUI.
+
 Linux host Requirements
 -----------
 Dropbox requires you to have your local Dropbox storage on an ext4 file system, some distributions will by default use another Types. Eg. centos will by default create xfs file systems which will not work. So please fix the file system first. Your can find your current file system type using the following command:
