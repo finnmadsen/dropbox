@@ -1,4 +1,4 @@
-Dropbox with web Control-gui
+Dropbox in docker image with web Control-gui
 ========
 Background
 -----------
@@ -16,6 +16,11 @@ df -T
 ```
 If you need to change there is a lot of great help to get out there. Just search for something like 'lvm change file system'. But be careful not to lose your data.
 
+Pull from docker hub
+-----------
+```
+docker pull fmadsen/dropbox
+```
 Usage
 ----------
 The start script below will pull and start a container with named 'dropbox'  with dropbox and a Nginx+php-fpm server running. 
